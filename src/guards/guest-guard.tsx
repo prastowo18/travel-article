@@ -1,21 +1,19 @@
-import { validateToken } from '@/services/validateToken';
-import React, { type FC, useEffect, useState } from 'react';
-
 import { Navigate } from 'react-router-dom';
+import React, { type FC, useEffect } from 'react';
+
+import { useAuthStore } from '@/stores/auth-store';
 
 interface GuestGuardProps {
   children: React.ReactNode;
 }
 const GuestGuard: FC<GuestGuardProps> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const { isAuthenticated, checkAuth } = useAuthStore();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const isValid = await validateToken();
-      setIsAuthenticated(isValid);
-    };
-    checkAuth();
-  }, []);
+    if (isAuthenticated === null) {
+      checkAuth();
+    }
+  }, [isAuthenticated, checkAuth]);
 
   if (isAuthenticated === null) {
     return (

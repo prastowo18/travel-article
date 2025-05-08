@@ -1,5 +1,12 @@
+import LogoutButton from '@/components/logout-button';
+
 const LandingPage = () => {
-  return <div>LandingPage</div>;
+  return (
+    <div>
+      <LogoutButton />
+      LandingPage
+    </div>
+  );
 };
 
 export default LandingPage;
