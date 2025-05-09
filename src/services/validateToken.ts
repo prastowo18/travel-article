@@ -1,8 +1,20 @@
 import { request } from './utils';
 
-export const validateToken = async (): Promise<boolean> => {
+interface ResponseType {
+  is_authenticated: boolean;
+  id: string;
+  email: string;
+  username: string;
+}
+export const validateToken = async (): Promise<ResponseType> => {
   const token = localStorage.getItem('authToken');
-  if (!token) return false;
+  if (!token)
+    return {
+      is_authenticated: false,
+      email: '',
+      username: '',
+      id: '',
+    };
 
   try {
     const data = await request({
@@ -15,11 +27,26 @@ export const validateToken = async (): Promise<boolean> => {
 
     // Pastikan response valid
     if (data && data.id && data.email) {
-      return true;
+      return {
+        is_authenticated: true,
+        email: data.email,
+        username: data.username,
+        id: data.id,
+      };
     }
 
-    return false; // misalnya data: { id, email, ... }
+    return {
+      is_authenticated: false,
+      email: '',
+      username: '',
+      id: '',
+    }; // misalnya data: { id, email, ... }
   } catch {
-    return false;
+    return {
+      is_authenticated: false,
+      email: '',
+      username: '',
+      id: '',
+    };
   }
 };

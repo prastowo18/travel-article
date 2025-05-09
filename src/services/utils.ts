@@ -37,18 +37,16 @@ export const request = async (options: RequestOptions) => {
     const response: AxiosResponse = await axiosInstance(options);
     return response?.data?.data ?? response.data;
   } catch (error) {
-    let message = 'Unknown error';
+    let message = 'Something went wrong';
 
     if (axios.isAxiosError(error)) {
-      message =
-        (error.response?.data as any)?.error?.message ||
-        (error.response?.data as any)?.message ||
-        error.message;
+      const resData = error.response?.data as any;
+
+      message = resData?.error?.message || resData?.message || error.message;
     } else if (error instanceof Error) {
       message = error.message;
     }
 
-    // Buat error baru dengan message yang bersih
     throw new Error(message);
   }
 };

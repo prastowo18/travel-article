@@ -1,9 +1,15 @@
 import { useAuthStore } from '@/stores/auth-store';
 
 const Dashboard = () => {
-  const { isAuthenticated } = useAuthStore();
-  console.log(' isAuthenticated', isAuthenticated);
-  return <div>Dashboard</div>;
+  const { id, email, username } = useAuthStore();
+
+  return (
+    <div className="">
+      <div className="">{id}</div>
+      <div className="">{email}</div>
+      <div className="">{username}</div>
+    </div>
+  );
 };
 
 export default Dashboard;

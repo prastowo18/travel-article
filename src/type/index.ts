@@ -10,3 +10,14 @@ export interface IRoute {
   guard?: ComponentType<GuardProps>;
   layout?: ComponentType<GuardProps>;
 }
+
+export interface LoginUser {
+  identifier: string;
+  password: string;
+}
+
+export interface RegisterUser {
+  email: string;
+  username: string;
+  password: string;
+}
