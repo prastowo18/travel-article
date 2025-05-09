@@ -6,7 +6,8 @@ export default {
     extend: {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
-        dmSans: ['"DM Sans"', 'sans-serif'],
+        dmSans: ['DM Sans', 'sans-serif'],
+        albertSans: ['Albert Sans', 'sans-serif'],
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -15,6 +16,7 @@ export default {
       },
       colors: {
         background: 'hsl(var(--background))',
+        background_2: '#f0f0f0',
         foreground: 'hsl(var(--foreground))',
         card: {
           DEFAULT: 'hsl(var(--card))',
@@ -28,9 +30,15 @@ export default {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
         },
+        primary_2: {
+          DEFAULT: '#16404d',
+        },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
           foreground: 'hsl(var(--secondary-foreground))',
+        },
+        secondary_2: {
+          DEFAULT: '#ffb200',
         },
         muted: {
           DEFAULT: 'hsl(var(--muted))',

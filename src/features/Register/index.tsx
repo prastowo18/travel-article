@@ -46,7 +46,7 @@ const Register = () => {
           >
             <div className="flex items-center justify-between mb-8">
               <Link to="/">
-                <span className="text-2xl font-semibold">newapp</span>
+                <span className="text-2xl font-semibold">Trail.Script</span>
               </Link>
               <Button
                 asChild
@@ -58,7 +58,7 @@ const Register = () => {
               </Button>
             </div>
             <h1 className="text-4xl font-medium">
-              Lorem, ipsum dolor sit amet consectetur adipisicing.
+              Your adventures, your words. Share them on TrailScript.
             </h1>
             <FormField
               control={form.control}

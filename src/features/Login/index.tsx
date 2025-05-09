@@ -46,7 +46,7 @@ const Login = () => {
             <div className="flex items-center justify-between mb-8">
               <Link to="/">
                 <span className="text-2xl font-semibold font-poppins">
-                  newapp
+                  Trail.Script
                 </span>
               </Link>
               <Button
@@ -58,7 +58,9 @@ const Login = () => {
                 <Link to="/register">Register</Link>
               </Button>
             </div>
-            <h1 className="text-4xl font-medium">Welcome back to NewApp.</h1>
+            <h1 className="text-4xl font-medium">
+              Welcome back to Trail.Script
+            </h1>
             <FormField
               control={form.control}
               name="identifier"
@@ -68,7 +70,7 @@ const Login = () => {
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      placeholder="email@gmail.com"
+                      placeholder="Input your email"
                       {...field}
                     />
                   </FormControl>
@@ -86,7 +88,7 @@ const Login = () => {
                   <FormControl>
                     <Input
                       disabled={isPending}
-                      placeholder="******"
+                      placeholder="Input your password"
                       type="password"
                       {...field}
                     />

@@ -7,7 +7,7 @@ const Dashboard = () => {
     <div className="">
       <div className="">{id}</div>
       <div className="">{email}</div>
-      <div className="">{username}</div>
+      <div className="text-primary">{username}</div>
     </div>
   );
 };
