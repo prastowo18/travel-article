@@ -9,7 +9,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import LogoutButton from '@/components/logout-button';
 
 import { useAuthStore } from '@/stores/auth-store';
 
@@ -30,7 +29,7 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
               <span className="text-primary_2">Trail</span>.Script
             </h1>
           </Link>
-          <div className="items-center justify-between hidden py-4 bg-white rounded-full lg:w-1/2 xl:w-[40%] 2xl:w-[35%] lg:flex lg:px-10 xl:px-14 font-albertSans text-sm  ">
+          <div className="lg:items-center lg:justify-between hidden py-4 bg-white rounded-full lg:w-1/2 xl:w-[40%] 2xl:w-[35%] lg:flex lg:px-10 xl:px-14 font-albertSans text-sm">
             {MENU_ITEM.map((e, i) => (
               <NavLink
                 key={i}
@@ -72,10 +71,17 @@ const UserDropdown = () => {
   const navigate = useNavigate();
   const { username, email } = useAuthStore();
 
+  const logout = useAuthStore((state) => state.logout);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
+
   return (
     <div className="relative">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger asChild>
           <Button
             size="icon"
             className="p-2 text-black bg-white rounded-full hover:text-white"
@@ -96,8 +102,8 @@ const UserDropdown = () => {
           >
             Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LogoutButton />
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
+            Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

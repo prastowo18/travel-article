@@ -1,15 +1,35 @@
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Plane } from 'lucide-react';
+import { formatDistance } from 'date-fns';
+import { ArrowUpRight, Backpack } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { cn } from '@/lib/utils';
+import type { ArticleType } from '@/type';
 
 import { useAuthStore } from '@/stores/auth-store';
 
-export const MyArticleSection = () => {
-  const { isAuthenticated } = useAuthStore();
+import { MyArticle } from '@/contants';
+
+interface Props {
+  data: ArticleType[];
+  isLoading: boolean;
+}
+
+export const MyArticleSection = ({ data, isLoading }: Props) => {
+  const { isAuthenticated, username } = useAuthStore();
+
+  const myArticle: typeof MyArticle = !data.length
+    ? MyArticle
+    : data.map((e) => {
+        return {
+          title: e.title,
+          description: e.description,
+          createdAt: e.createdAt,
+        };
+      });
 
   return (
     <div className="px-5 lg:px-7">
@@ -88,44 +108,94 @@ export const MyArticleSection = () => {
                 Demo
               </Badge>
             )}
-            <p className="text-sm font-light underline text-primary_2 underline-offset-4 decoration-primary_2">
-              My Article
+            <p className="text-sm font-light underline capitalize text-primary_2 underline-offset-4 decoration-primary_2">
+              {isAuthenticated ? username : 'Your'} Article
             </p>
             <h2 className="mt-1 text-4xl font-light font-albertSans">
               Journey in Words
             </h2>
             <div className="flex flex-col gap-5 mt-10 font-extralight font-albertSans">
-              {Array(4)
-                .fill(undefined)
-                .map((_, i) => (
-                  <div
+              {isLoading ? (
+                Array.from({ length: 3 }, (_, index) => (
+                  <MyArticleItemSkeleton
+                    key={index}
                     className={cn(
-                      'flex items-center gap-5 px-5 rounded-3xl py-5',
-                      i + 1 == 1 && 'bg-primary_2 text-white'
+                      index + 1 == 1 ? 'bg-[#5c7a84]' : 'bg-white shadow-sm'
                     )}
-                    key={i}
-                  >
-                    <div
-                      className={cn(
-                        'p-5 rounded-2xl bg-background_2 text-gray-700',
-                        i + 1 == 1 && 'bg-[#5c7a84] text-white'
-                      )}
-                    >
-                      <Plane className="size-6" />
-                    </div>
-                    <div className="">
-                      <h3 className="text-xl">Hello</h3>
-                      <p className="mt-2 text-sm">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing
-                        elit. Facilis at in maiores quia veniam totam,
-                        blanditiis eius minus laboriosam? Voluptates.
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                  />
+                ))
+              ) : (
+                <>
+                  {myArticle.map((e, i) => (
+                    <MyArticleItem data={e} i={i} key={i} />
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const MyArticleItem = ({
+  data,
+  i,
+}: {
+  i: number;
+  data: (typeof MyArticle)[0];
+}) => {
+  return (
+    <div
+      className={cn(
+        'flex items-center gap-5 px-5 rounded-3xl py-5',
+        i + 1 == 1 && 'bg-primary_2 text-white'
+      )}
+      key={i}
+    >
+      <div
+        className={cn(
+          'p-5 rounded-2xl bg-background_2 text-gray-700',
+          i + 1 == 1 && 'bg-[#5c7a84] text-white'
+        )}
+      >
+        <Backpack className="size-6" />
+      </div>
+      <div className="font-albertSans">
+        <h3 className="text-xl font-normal">{data.title}</h3>
+        <p className="mt-2 text-sm line-clamp-2 font-extralight">
+          {data.description}
+        </p>
+        <p
+          className={cn(
+            'mt-5 text-xs font-medium text-gray-700',
+            i + 1 == 1 && 'text-white'
+          )}
+        >
+          {formatDistance(new Date(data.createdAt), new Date(), {
+            addSuffix: true,
+          }).replace('about', '')}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const MyArticleItemSkeleton = ({ className }: { className: string }) => {
+  return (
+    <div
+      className={cn(
+        'flex flex-row items-center gap-5 px-5 py-5 rounded-3xl',
+        className
+      )}
+    >
+      <Skeleton className="w-16 h-16 rounded-xl" />
+      <div className="flex flex-col flex-1 w-full gap-1">
+        <Skeleton className="w-full h-8" />
+        <Skeleton className="w-2/3 h-5 mt-3" />
+        <Skeleton className="w-1/2 h-5" />
+        <Skeleton className="w-3/4 h-5" />
       </div>
     </div>
   );

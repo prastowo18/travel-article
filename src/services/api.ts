@@ -1,6 +1,6 @@
 import { request } from './utils';
 
-import type { LoginUser, RegisterUser } from '@/type';
+import type { ArticleParams, LoginUser, RegisterUser } from '@/type';
 
 // AUTH
 export const loginUserService = (data: LoginUser) =>
@@ -20,5 +20,19 @@ export const registerUserService = (data: RegisterUser) =>
     data,
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+// ARTICLES
+export const getArticles = (params: ArticleParams) =>
+  request({
+    url: `/api/articles`,
+    method: 'GET',
+    params: {
+      populate: '*',
+      'filters[category][name][$eqi]': params.category,
+      'filters[title][$eqi]': params.title,
+      'pagination[page]': params.page,
+      'pagination[pageSize]': params.pageSize,
     },
   });

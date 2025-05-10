@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ComponentType, ReactNode } from 'react';
 
 interface GuardProps {
@@ -20,4 +21,59 @@ export interface RegisterUser {
   email: string;
   username: string;
   password: string;
+}
+
+export interface ArticleParams {
+  category?: string;
+  title?: string;
+  page?: string;
+  pageSize?: string;
+}
+
+export interface ArticleType {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  cover_image_url: string;
+  createdAt: string;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+  user: User;
+  category: Category;
+  comments: Category[];
+  localizations: any[];
+}
+
+export interface Category {
+  id: number;
+  documentId: string;
+  name?: string;
+  description?: null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+  content?: string;
+}
+
+export interface User {
+  id: number;
+  documentId: string;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+}
+
+export interface MyArticleType {
+  title: string;
+  description: string;
+  createdAt: Date;
 }
