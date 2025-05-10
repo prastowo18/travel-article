@@ -1,5 +1,7 @@
 import React, { useEffect, type FC } from 'react';
 
+import { Loading } from '@/components/loading';
+
 import { useAuthStore } from '@/stores/auth-store';
 
 interface LandingPageGuardProps {
@@ -15,11 +17,7 @@ const LandingPageGuard: FC<LandingPageGuardProps> = ({ children }) => {
   }, [isAuthenticated, checkAuth]);
 
   if (isAuthenticated === null) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
   return <>{children}</>;
 };

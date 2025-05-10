@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 
+import { Loading } from '@/components/loading';
+
 import { useAuthStore } from '@/stores/auth-store';
 
 interface AuthGuardProps {
@@ -17,11 +19,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   }, [isAuthenticated, checkAuth]);
 
   if (isAuthenticated === null) {
-    return (
-      <div className="flex items-center justify-center w-full h-screen">
-        Loading...
-      </div>
-    );
+    return <Loading />;
   }
 
   if (!isAuthenticated) {

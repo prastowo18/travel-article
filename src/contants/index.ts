@@ -28,3 +28,22 @@ export const LatestArticle = [
     img: '/hero-img.jpg',
   },
 ];
+
+export const MENU_ITEM = [
+  {
+    title: 'Home',
+    link: '/',
+  },
+  {
+    title: 'Articles',
+    link: '/articles',
+  },
+  {
+    title: 'Category',
+    link: '/category',
+  },
+  {
+    title: 'Contact Us',
+    link: '/contact-us',
+  },
+];

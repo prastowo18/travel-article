@@ -1,4 +1,5 @@
 import { Menu, UserRound } from 'lucide-react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 
 import {
   DropdownMenu,
@@ -12,6 +13,8 @@ import LogoutButton from '@/components/logout-button';
 
 import { useAuthStore } from '@/stores/auth-store';
 
+import { MENU_ITEM } from '@/contants';
+
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuthStore();
 
@@ -22,16 +25,35 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
           <div className="p-2 bg-white rounded-md lg:hidden">
             <Menu className="size-5" />
           </div>
-          <h1 className="text-2xl font-medium tracking-tight font-albertSans">
-            <span className="text-primary_2">Trail</span>.Script
-          </h1>
-          <div className="items-center justify-between hidden py-4 bg-white rounded-full lg:w-1/2 xl:w-[40%] 2xl:w-[35%] lg:flex lg:px-10 xl:px-14 font-albertSans">
-            <p className="tracking-wide">Home</p>
-            <p className="tracking-wide">Articles</p>
-            <p className="tracking-wide">Category</p>
-            <p className="tracking-wide">Contact Us</p>
+          <Link to="/">
+            <h1 className="text-2xl font-medium tracking-tight font-albertSans">
+              <span className="text-primary_2">Trail</span>.Script
+            </h1>
+          </Link>
+          <div className="items-center justify-between hidden py-4 bg-white rounded-full lg:w-1/2 xl:w-[40%] 2xl:w-[35%] lg:flex lg:px-10 xl:px-14 font-albertSans text-sm  ">
+            {MENU_ITEM.map((e, i) => (
+              <NavLink
+                key={i}
+                to={e.link}
+                className={({ isActive }) =>
+                  `tracking-wide transition-colors duration-200 ${
+                    isActive ? 'text-secondary_2' : 'text-[#1D1D1D]'
+                  } hover:text-secondary_2`
+                }
+              >
+                {e.title}
+              </NavLink>
+            ))}
           </div>
-          <div className="">{isAuthenticated && <UserDropdown />}</div>
+          <div className="">
+            {isAuthenticated ? (
+              <UserDropdown />
+            ) : (
+              <Button asChild className="rounded-full bg-primary_2 px-7">
+                <Link to="/login">Login</Link>
+              </Button>
+            )}
+          </div>
         </nav>
       </div>
       {children}
@@ -47,6 +69,7 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
 export default LandingPageLayout;
 
 const UserDropdown = () => {
+  const navigate = useNavigate();
   const { username, email } = useAuthStore();
 
   return (
@@ -67,7 +90,12 @@ const UserDropdown = () => {
               <p className="text-xs font-extralight">{email}</p>
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => navigate('/dashboard')}
+          >
+            Dashboard
+          </DropdownMenuItem>
           <DropdownMenuItem>
             <LogoutButton />
           </DropdownMenuItem>
