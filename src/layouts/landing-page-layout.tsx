@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { Menu, UserRound } from 'lucide-react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   DropdownMenu,
@@ -9,41 +10,32 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { NavbarSidebar } from '@/components/navbar-sidebar-mobile';
 
 import { useAuthStore } from '@/stores/auth-store';
 
-import { MENU_ITEM } from '@/contants';
-
 const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isAuthenticated } = useAuthStore();
 
   return (
     <main className="">
       <div className="px-5 pt-5 lg:pt-8 lg:px-7">
         <nav className="flex items-center justify-between">
-          <div className="p-2 bg-white rounded-md lg:hidden">
+          <Button
+            size="icon"
+            variant="outline"
+            className="lg:hidden"
+            onClick={() => setSidebarOpen(true)}
+          >
             <Menu className="size-5" />
-          </div>
+          </Button>
+
           <Link to="/">
             <h1 className="text-2xl font-medium tracking-tight font-albertSans">
               <span className="text-primary_2">Trail</span>.Script
             </h1>
           </Link>
-          <div className="lg:items-center lg:justify-between hidden py-4 bg-white rounded-full lg:w-1/2 xl:w-[40%] 2xl:w-[35%] lg:flex lg:px-10 xl:px-14 font-albertSans text-sm">
-            {MENU_ITEM.map((e, i) => (
-              <NavLink
-                key={i}
-                to={e.link}
-                className={({ isActive }) =>
-                  `tracking-wide transition-colors duration-200 ${
-                    isActive ? 'text-secondary_2' : 'text-[#1D1D1D]'
-                  } hover:text-secondary_2`
-                }
-              >
-                {e.title}
-              </NavLink>
-            ))}
-          </div>
           <div className="">
             {isAuthenticated ? (
               <UserDropdown />
@@ -61,6 +53,7 @@ const LandingPageLayout = ({ children }: { children: React.ReactNode }) => {
           Trail.Script
         </p>
       </footer>
+      <NavbarSidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
     </main>
   );
 };

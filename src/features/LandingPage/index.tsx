@@ -1,10 +1,14 @@
-import { useArticle } from '@/services/queries';
-import { HeroSection } from './components/hero';
-import { LatestArticleSection } from './components/latest-article';
-import { MyArticleSection } from './components/my-article';
-import type { ArticleType } from '@/type';
-import { useAuthStore } from '@/stores/auth-store';
 import _ from 'lodash';
+
+import { useArticle } from '@/services/queries';
+
+import { HeroSection } from './components/hero';
+import { MyArticleSection } from './components/my-article';
+import { LatestArticleSection } from './components/latest-article';
+
+import type { ArticleType } from '@/type';
+
+import { useAuthStore } from '@/stores/auth-store';
 
 const LandingPage = () => {
   const { id, isAuthenticated } = useAuthStore();
@@ -25,7 +29,9 @@ const LandingPage = () => {
       return [];
     } else {
       return !isLoading
-        ? _.orderBy(_.filter(sortData(), (item) => item.user.id === Number(id)))
+        ? _.orderBy(
+            _.filter(sortData(), (item) => item.user?.id === Number(id))
+          )
         : [];
     }
   };

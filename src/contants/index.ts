@@ -24,22 +24,3 @@ export const MyArticle = [
     createdAt: '2025-04-10T06:09:04.487Z',
   },
 ];
-
-export const MENU_ITEM = [
-  {
-    title: 'Home',
-    link: '/',
-  },
-  {
-    title: 'Articles',
-    link: '/articles',
-  },
-  {
-    title: 'Category',
-    link: '/category',
-  },
-  {
-    title: 'Profile',
-    link: '/profile',
-  },
-];

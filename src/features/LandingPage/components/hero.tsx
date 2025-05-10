@@ -1,11 +1,14 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/components/ui/button';
 
 import { useAuthStore } from '@/stores/auth-store';
+import { SheetAddArticle } from '@/components/sheet-add-article';
 
 export const HeroSection = () => {
   const { isAuthenticated } = useAuthStore();
+  const [addArticleOpen, setAddArticleOpen] = useState(false);
 
   return (
     <div className="px-5 lg:px-7">
@@ -27,7 +30,10 @@ export const HeroSection = () => {
             </p>
 
             {isAuthenticated ? (
-              <Button className="px-6 mt-5 font-light tracking-wide text-white rounded-full bg-primary_2">
+              <Button
+                onClick={() => setAddArticleOpen(true)}
+                className="px-6 mt-5 font-light tracking-wide text-white rounded-full bg-primary_2"
+              >
                 Begin Your Story
               </Button>
             ) : (
@@ -48,6 +54,11 @@ export const HeroSection = () => {
           }}
         />
       </div>
+      <SheetAddArticle
+        action="add"
+        open={addArticleOpen}
+        onOpenChange={setAddArticleOpen}
+      />
     </div>
   );
 };

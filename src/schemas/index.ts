@@ -14,3 +14,12 @@ export const userRegisterSchema = z.object({
 });
 
 export type UserRegisterValues = z.infer<typeof userRegisterSchema>;
+
+export const articleSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  cover_image_url: z.string().min(1),
+  category: z.string().min(1),
+});
+
+export type ArticleValues = z.infer<typeof articleSchema>;

@@ -77,3 +77,14 @@ export interface MyArticleType {
   description: string;
   createdAt: Date;
 }
+
+export interface CategoriesType {
+  id: number;
+  documentId: string;
+  name: string;
+  description: null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+}
