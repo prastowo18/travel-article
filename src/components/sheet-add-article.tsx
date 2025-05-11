@@ -43,7 +43,7 @@ interface Props {
 
 export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
   const { article, clearArticle } = useArticleStore();
-  const categoriesQuery = useCategories();
+  const categoriesQuery = useCategories({});
   const { data: categoriesData, isLoading: isLoadingCategories } =
     categoriesQuery;
 
@@ -147,7 +147,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                     <FormControl>
                       {isLoadingCategories ? (
                         <p>Loading categories...</p>
-                      ) : categoriesData && categoriesData.length > 0 ? (
+                      ) : categoriesData && categoriesData.data.length > 0 ? (
                         <Select
                           disabled={isPending}
                           onValueChange={field.onChange}
@@ -159,7 +159,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                             <SelectValue placeholder="Select story category" />
                           </SelectTrigger>
                           <SelectContent>
-                            {categoriesData.map((e) => (
+                            {categoriesData.data.map((e) => (
                               <SelectItem key={e.id} value={e.id.toString()}>
                                 {e.name}
                               </SelectItem>

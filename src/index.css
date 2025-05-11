@@ -86,3 +86,11 @@
     @apply bg-background_2 text-foreground;
   }
 }
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}

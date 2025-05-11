@@ -23,3 +23,16 @@ export const articleSchema = z.object({
 });
 
 export type ArticleValues = z.infer<typeof articleSchema>;
+
+export const categoriesSchema = z.object({
+  name: z.string().min(1),
+});
+
+export type CategoriesValues = z.infer<typeof categoriesSchema>;
+
+export const commentsSchema = z.object({
+  content: z.string().min(1),
+  article: z.string().min(1),
+});
+
+export type CommentsValues = z.infer<typeof commentsSchema>;

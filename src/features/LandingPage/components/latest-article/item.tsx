@@ -68,7 +68,7 @@ export const ArticleItem = ({ data }: { data: ArticleType }) => {
             onStoreArticle={() => {
               setArticle({
                 document_id: data.documentId,
-                category: data.category.id.toString(),
+                category: data.category?.id.toString() ?? '',
                 cover_image_url: data.cover_image_url,
                 description: data.description,
                 title: data.title,

@@ -6,9 +6,9 @@ import { HeroSection } from './components/hero';
 import { MyArticleSection } from './components/my-article';
 import { LatestArticleSection } from './components/latest-article';
 
-import type { ArticleType } from '@/type';
-
 import { useAuthStore } from '@/stores/auth-store';
+
+import type { ArticleType } from '@/type';
 
 const LandingPage = () => {
   const { id, isAuthenticated } = useAuthStore();
@@ -20,7 +20,7 @@ const LandingPage = () => {
   const { data, isLoading } = articleQuery;
 
   const sortData = () => {
-    return data ? _.orderBy(data, ['createdAt'], ['desc']) : [];
+    return data ? _.orderBy(data.data, ['createdAt'], ['desc']) : [];
   };
   const latestArticle: ArticleType[] = sortData().slice(0, 4);
 

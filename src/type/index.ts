@@ -30,20 +30,14 @@ export interface ArticleParams {
   pageSize?: string;
 }
 
-export interface ArticleType {
-  id: number;
-  documentId: string;
-  title: string;
-  description: string;
-  cover_image_url: string;
-  createdAt: string;
-  updatedAt: Date;
-  publishedAt: Date;
-  locale: null;
-  user: User;
-  category: Category;
-  comments: Category[];
-  localizations: any[];
+export interface CategoriesParams {
+  page?: string;
+  pageSize?: string;
+}
+
+export interface CommentsParams {
+  page?: string;
+  pageSize?: string;
 }
 
 export interface Category {
@@ -87,4 +81,82 @@ export interface CategoriesType {
   updatedAt: Date;
   publishedAt: Date;
   locale: null;
+}
+export interface ArticleResponseType {
+  data: ArticleType[];
+  meta: Meta;
+}
+
+export interface ArticleType {
+  id: number;
+  documentId: string;
+  title: string;
+  description: string;
+  cover_image_url: string;
+  createdAt: string;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+  user: User;
+  category: Category | null;
+  comments: Category[];
+  localizations: any[];
+}
+
+export interface Category {
+  id: number;
+  documentId: string;
+  name?: string;
+  description?: null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+  content?: string;
+}
+
+export interface User {
+  id: number;
+  documentId: string;
+  username: string;
+  email: string;
+  provider: string;
+  confirmed: boolean;
+  blocked: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+}
+
+export interface Meta {
+  pagination: Pagination;
+}
+
+export interface Pagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
+
+export interface CategoriesReponse {
+  data: Category[];
+  meta: Meta;
+}
+
+export interface CommentResponseType {
+  data: CommentType[];
+  meta: Meta;
+}
+
+export interface CommentType {
+  id: number;
+  documentId: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+  user: User;
 }

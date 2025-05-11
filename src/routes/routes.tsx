@@ -1,7 +1,15 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { Dashboard, LandingPage, Login, Register } from '@/features';
+import {
+  Dashboard,
+  DashboardArticles,
+  DashboardCategories,
+  DashboardComments,
+  LandingPage,
+  Login,
+  Register,
+} from '@/features';
 
 import DashboardLayout from '@/layouts/dashboard-layout';
 import LandingPageLayout from '@/layouts/landing-page-layout';
@@ -22,6 +30,24 @@ export const routes: IRoute[] = [
   {
     path: '/dashboard',
     element: Dashboard,
+    guard: AuthGuard,
+    layout: DashboardLayout,
+  },
+  {
+    path: '/dashboard/articles',
+    element: DashboardArticles,
+    guard: AuthGuard,
+    layout: DashboardLayout,
+  },
+  {
+    path: '/dashboard/categories',
+    element: DashboardCategories,
+    guard: AuthGuard,
+    layout: DashboardLayout,
+  },
+  {
+    path: '/dashboard/comments',
+    element: DashboardComments,
     guard: AuthGuard,
     layout: DashboardLayout,
   },

@@ -35,7 +35,7 @@ export const request = async (options: RequestOptions) => {
 
   try {
     const response: AxiosResponse = await axiosInstance(options);
-    return response?.data?.data ?? response.data;
+    return response?.data ?? response.data;
   } catch (error) {
     let message = 'Something went wrong';
 
