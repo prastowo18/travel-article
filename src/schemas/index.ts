@@ -18,7 +18,7 @@ export type UserRegisterValues = z.infer<typeof userRegisterSchema>;
 export const articleSchema = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
-  cover_image_url: z.string().min(1),
+  cover_image_url: z.string(),
   category: z.string().min(1),
 });
 
@@ -32,7 +32,6 @@ export type CategoriesValues = z.infer<typeof categoriesSchema>;
 
 export const commentsSchema = z.object({
   content: z.string().min(1),
-  article: z.string().min(1),
 });
 
 export type CommentsValues = z.infer<typeof commentsSchema>;

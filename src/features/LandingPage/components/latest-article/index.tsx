@@ -3,6 +3,7 @@ import type { ArticleType } from '@/type';
 import { ArticleItem } from './item';
 import { ArticleSkeletonLoading } from './skeleton';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 interface Props {
   data: ArticleType[];
@@ -30,8 +31,8 @@ export const LatestArticleSection = ({ data, isLoading }: Props) => {
         </div>
       </div>
       <div className="flex flex-col pt-16">
-        <Button className="font-light mb-7 w-fit bg-primary_2">
-          Show more articles
+        <Button asChild className="font-light mb-7 w-fit bg-primary_2">
+          <Link to="/articles">Show more articles</Link>
         </Button>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {isLoading ? (

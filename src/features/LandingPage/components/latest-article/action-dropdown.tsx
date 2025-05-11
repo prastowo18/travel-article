@@ -14,7 +14,6 @@ import {
 import { Loading } from '@/components/loading';
 import { Button } from '@/components/ui/button';
 
-import { useAuthStore } from '@/stores/auth-store';
 import { SheetAddArticle } from '@/components/sheet-add-article';
 
 interface Props {
@@ -23,13 +22,8 @@ interface Props {
   onStoreArticle: () => void;
 }
 
-export const ActionDropdown = ({
-  user_id,
-  document_id,
-  onStoreArticle,
-}: Props) => {
+export const ActionDropdown = ({ document_id, onStoreArticle }: Props) => {
   const navigate = useNavigate();
-  const { isAuthenticated, id } = useAuthStore();
 
   const [addArticleOpen, setAddArticleOpen] = useState(false);
 
@@ -59,29 +53,25 @@ export const ActionDropdown = ({
           <DropdownMenuLabel className="">Detail Action</DropdownMenuLabel>
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(`/articles/${document_id}`)}
           >
             View
           </DropdownMenuItem>
-          {isAuthenticated && Number(id) === user_id && (
-            <>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => {
-                  setAddArticleOpen(true);
-                  onStoreArticle();
-                }}
-              >
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => onDeleteArticle(document_id)}
-              >
-                Delete
-              </DropdownMenuItem>
-            </>
-          )}
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => {
+              setAddArticleOpen(true);
+              onStoreArticle();
+            }}
+          >
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => onDeleteArticle(document_id)}
+          >
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <SheetAddArticle

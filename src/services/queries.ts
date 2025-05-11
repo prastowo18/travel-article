@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getArticles, getCategoriesService, getCommentsService } from './api';
+import {
+  getArticle,
+  getArticles,
+  getCategoriesService,
+  getCommentsService,
+} from './api';
 
 import type {
+  ArticleOneResponseType,
   ArticleParams,
   ArticleResponseType,
   CategoriesParams,
@@ -15,6 +21,13 @@ export function useArticle(params: ArticleParams) {
   return useQuery<ArticleResponseType>({
     queryKey: ['articles', params],
     queryFn: () => getArticles(params),
+  });
+}
+
+export function useOneArticle(document_id: string) {
+  return useQuery<ArticleOneResponseType>({
+    queryKey: ['article-one', document_id],
+    queryFn: () => getArticle(document_id),
   });
 }
 

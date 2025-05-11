@@ -18,7 +18,7 @@ export const ArticleItem = ({ data }: { data: ArticleType }) => {
       <div
         className="w-full h-[200px] rounded-lg"
         style={{
-          backgroundImage: `url('${data.cover_image_url}')`,
+          backgroundImage: `url('${data.cover_image_url ? data.cover_image_url : '/no-img.svg'}')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
@@ -61,21 +61,23 @@ export const ArticleItem = ({ data }: { data: ArticleType }) => {
             <p className="text-xs">{data.category.name}</p>
           </div>
         )}
-        <div className="">
-          <ActionDropdown
-            user_id={data.user?.id ? data.user?.id : 0}
-            document_id={data.documentId}
-            onStoreArticle={() => {
-              setArticle({
-                document_id: data.documentId,
-                category: data.category?.id.toString() ?? '',
-                cover_image_url: data.cover_image_url,
-                description: data.description,
-                title: data.title,
-              });
-            }}
-          />
-        </div>
+        {isAuthenticated && (
+          <div className="">
+            <ActionDropdown
+              user_id={data.user?.id ? data.user?.id : 0}
+              document_id={data.documentId}
+              onStoreArticle={() => {
+                setArticle({
+                  document_id: data.documentId,
+                  category: data.category?.id.toString() ?? '',
+                  cover_image_url: data.cover_image_url,
+                  description: data.description,
+                  title: data.title,
+                });
+              }}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -87,6 +87,11 @@ export interface ArticleResponseType {
   meta: Meta;
 }
 
+export interface ArticleOneResponseType {
+  data: ArticleType;
+  meta: Meta;
+}
+
 export interface ArticleType {
   id: number;
   documentId: string;
@@ -99,7 +104,7 @@ export interface ArticleType {
   locale: null;
   user: User;
   category: Category | null;
-  comments: Category[];
+  comments: CommentType[];
   localizations: any[];
 }
 
@@ -159,4 +164,8 @@ export interface CommentType {
   publishedAt: Date;
   locale: null;
   user: User;
+}
+
+export interface UploadImage {
+  files: File; // or File if you're uploading a single image
 }

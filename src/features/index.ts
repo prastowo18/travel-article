@@ -5,6 +5,8 @@ import Dashboard from './Dashboard';
 import DashboardArticles from './Dashboard/Articles';
 import DashboardCategories from './Dashboard/Categories';
 import DashboardComments from './Dashboard/Comments';
+import Articles from './Articles';
+import DetailArticle from './Articles/detail';
 
 export {
   Dashboard,
@@ -14,4 +16,6 @@ export {
   LandingPage,
   Login,
   Register,
+  Articles,
+  DetailArticle,
 };

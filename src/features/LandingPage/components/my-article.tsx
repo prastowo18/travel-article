@@ -21,15 +21,17 @@ interface Props {
 export const MyArticleSection = ({ data, isLoading }: Props) => {
   const { isAuthenticated, username } = useAuthStore();
 
-  const myArticle: typeof MyArticle = !data.length
-    ? MyArticle
-    : data.map((e) => {
-        return {
-          title: e.title,
-          description: e.description,
-          createdAt: e.createdAt,
-        };
-      });
+  const myArticle: typeof MyArticle = isAuthenticated
+    ? data.length
+      ? data.map((e) => {
+          return {
+            title: e.title,
+            description: e.description,
+            createdAt: e.createdAt,
+          };
+        })
+      : []
+    : MyArticle;
 
   return (
     <div className="px-5 lg:px-7">
@@ -114,24 +116,30 @@ export const MyArticleSection = ({ data, isLoading }: Props) => {
             <h2 className="mt-1 text-4xl font-light font-albertSans">
               Journey in Words
             </h2>
-            <div className="flex flex-col gap-5 mt-10 font-extralight font-albertSans">
-              {isLoading ? (
-                Array.from({ length: 3 }, (_, index) => (
-                  <MyArticleItemSkeleton
-                    key={index}
-                    className={cn(
-                      index + 1 == 1 ? 'bg-[#5c7a84]' : 'bg-white shadow-sm'
-                    )}
-                  />
-                ))
-              ) : (
-                <>
-                  {myArticle.map((e, i) => (
-                    <MyArticleItem data={e} i={i} key={i} />
-                  ))}
-                </>
-              )}
-            </div>
+            {!myArticle.length ? (
+              <div className="mt-10 font-extralight font-albertSans">
+                No article, create your article.
+              </div>
+            ) : (
+              <div className="flex flex-col gap-5 mt-10 font-extralight font-albertSans">
+                {isLoading ? (
+                  Array.from({ length: 3 }, (_, index) => (
+                    <MyArticleItemSkeleton
+                      key={index}
+                      className={cn(
+                        index + 1 == 1 ? 'bg-[#5c7a84]' : 'bg-white shadow-sm'
+                      )}
+                    />
+                  ))
+                ) : (
+                  <>
+                    {myArticle.map((e, i) => (
+                      <MyArticleItem data={e} i={i} key={i} />
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

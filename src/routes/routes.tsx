@@ -2,10 +2,12 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import {
+  Articles,
   Dashboard,
   DashboardArticles,
   DashboardCategories,
   DashboardComments,
+  DetailArticle,
   LandingPage,
   Login,
   Register,
@@ -25,6 +27,18 @@ export const routes: IRoute[] = [
     path: '/',
     element: LandingPage,
     guard: LandingPageGuard,
+    layout: LandingPageLayout,
+  },
+  {
+    path: '/articles',
+    element: Articles,
+    guard: LandingPageGuard,
+    layout: LandingPageLayout,
+  },
+  {
+    path: '/articles/:document_id',
+    element: DetailArticle,
+    guard: AuthGuard,
     layout: LandingPageLayout,
   },
   {

@@ -11,6 +11,7 @@ import type {
   CommentsParams,
   LoginUser,
   RegisterUser,
+  UploadImage,
 } from '@/type';
 
 // AUTH
@@ -41,10 +42,24 @@ export const getArticles = (params: ArticleParams) =>
     method: 'GET',
     params: {
       populate: '*',
-      'filters[category][name][$eqi]': params.category,
-      'filters[title][$eqi]': params.title,
       'pagination[page]': params.page,
       'pagination[pageSize]': params.pageSize,
+      ...(params.category !== '' && {
+        'filters[category][name][$eqi]': params.category,
+      }),
+      ...(params.title !== '' && {
+        'filters[title][$eqi]': params.title,
+      }),
+    },
+  });
+
+export const getArticle = (document_id: string) =>
+  request({
+    url: `/api/articles/${document_id}`,
+    method: 'GET',
+    params: {
+      'populate[user]': '*',
+      'populate[comments][populate][user]': '*',
     },
   });
 
@@ -69,13 +84,17 @@ export const updateArticleService = (
     },
   });
 
-// export const uploadImage = (data: IPayloadBooks) =>
-// request({
-//   url: `/api/upload`,
-//   method: 'POST',
-//   data,
-//   headers: { 'Content-Type': 'multipart/form-data' },
-// });
+export const uploadImage = (data: UploadImage) => {
+  const formData = new FormData();
+  formData.append('files', data.files);
+
+  return request({
+    url: `/api/upload`,
+    method: 'POST',
+    data: formData,
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
 
 export const deleteArticleService = (document_id: string) =>
   request({
@@ -133,28 +152,32 @@ export const getCommentsService = (params: CommentsParams) =>
     },
   });
 
-export const addCommentsService = (values: CommentsValues) =>
+export const addCommentsService = (
+  values: CommentsValues,
+  article_id: string
+) =>
   request({
     url: `/api/comments`,
     method: 'POST',
     data: {
       data: {
         ...values,
-        article: Number(values.article),
+        article: Number(article_id),
       },
     },
   });
 
 export const updateCommentsService = (
   values: CommentsValues,
-  document_id: string
+  document_id: string,
+  article_id: string
 ) =>
   request({
     url: `/api/comments/${document_id}`,
     method: 'PUT',
     data: {
       ...values,
-      article: Number(values.article),
+      article: Number(article_id),
     },
   });
 

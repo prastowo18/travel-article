@@ -5,6 +5,7 @@ import { addCommentsService, updateCommentsService } from '@/services/api';
 import type { CommentsValues } from '@/schemas';
 
 export const useMutationComments = (
+  article_id: string,
   action: 'add' | 'update',
   document_id?: string
 ) => {
@@ -13,12 +14,14 @@ export const useMutationComments = (
   return useMutation({
     mutationFn: (data: CommentsValues) => {
       return action === 'add'
-        ? addCommentsService(data)
-        : updateCommentsService(data, document_id!);
+        ? addCommentsService(data, article_id)
+        : updateCommentsService(data, document_id!, article_id);
     },
 
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['comments'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['comments', 'articles'],
+      });
       toast.success(
         `Comment ${action === 'add' ? 'added' : 'updated'} successfully!`
       );

@@ -10,7 +10,9 @@ export const useDeleteComments = () => {
     mutationFn: (document_id: string) => deleteCommentsService(document_id),
 
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['comments'] });
+      await queryClient.invalidateQueries({
+        queryKey: ['comments', 'articles'],
+      });
       toast.success('Comments deleted successfully!');
     },
 

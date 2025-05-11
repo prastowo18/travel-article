@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -34,6 +34,10 @@ import useArticleStore from '@/stores/article-store';
 import { articleSchema, type ArticleValues } from '@/schemas';
 
 import { useCategories } from '@/services/queries';
+import { ImageUploader } from './image-upload';
+import { Switch } from './ui/switch';
+import { Label } from './ui/label';
+import { useUploadImage } from '@/mutations/use-upload-image';
 
 interface Props {
   action: 'add' | 'update';
@@ -42,6 +46,8 @@ interface Props {
 }
 
 export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
+  const [showCoverImage, setShowCoverImage] = useState(false);
+
   const { article, clearArticle } = useArticleStore();
   const categoriesQuery = useCategories({});
   const { data: categoriesData, isLoading: isLoadingCategories } =
@@ -52,14 +58,16 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
     article?.document_id
   );
 
+  const { mutate: uploadImageMutate, isPending: isLoadingUpload } =
+    useUploadImage();
+
   const form = useForm<ArticleValues>({
     resolver: zodResolver(articleSchema),
     defaultValues: {
       title: '',
       description: '',
       category: '',
-      cover_image_url:
-        'https://res.cloudinary.com/yeremia-alfa-dio/image/upload/v1746858961/coast_9549731_1280_e6daefa4a5.png',
+      cover_image_url: '',
     },
   });
   const { handleSubmit, setValue, reset } = form;
@@ -67,6 +75,18 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
   const onSubmit: SubmitHandler<ArticleValues> = (data) => {
     mutate(data, {
       onSuccess: () => {
+        setShowCoverImage(false);
+        onOpenChange(false);
+        clearArticle();
+        reset({
+          title: '',
+          description: '',
+          category: '',
+          cover_image_url: '',
+        });
+      },
+      onError: () => {
+        setShowCoverImage(false);
         onOpenChange(false);
         clearArticle();
         reset({
@@ -100,7 +120,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
           <Form {...form}>
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="flex flex-col gap-5 p-5"
+              className="flex flex-col gap-5 p-5 pb-56"
             >
               <FormField
                 control={form.control}
@@ -110,7 +130,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isPending}
+                        disabled={isPending || isLoadingUpload}
                         placeholder="Input story title"
                         {...field}
                       />
@@ -128,7 +148,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Input
-                        disabled={isPending}
+                        disabled={isPending || isLoadingUpload}
                         placeholder="Input story description"
                         {...field}
                       />
@@ -149,7 +169,7 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                         <p>Loading categories...</p>
                       ) : categoriesData && categoriesData.data.length > 0 ? (
                         <Select
-                          disabled={isPending}
+                          disabled={isPending || isLoadingUpload}
                           onValueChange={field.onChange}
                           defaultValue={
                             field.value ? field.value.toString() : ''
@@ -184,7 +204,48 @@ export const SheetAddArticle = ({ action, onOpenChange, open }: Props) => {
                 )}
               />
 
-              <Button disabled={isPending} type="submit" size="lg" className="">
+              <div className="">
+                {action !== 'update' ? (
+                  <div className="flex items-center mb-5 space-x-2">
+                    <Switch
+                      id="use-cover-img"
+                      checked={showCoverImage}
+                      onCheckedChange={setShowCoverImage}
+                    />
+                    <Label htmlFor="use-cover-img" className="font-medium">
+                      Use cover image
+                    </Label>
+                  </div>
+                ) : (
+                  <div className="flex w-full h-36">
+                    <img src={form.watch('cover_image_url')} alt="img" />
+                  </div>
+                )}
+              </div>
+
+              {showCoverImage && (
+                <div className="">
+                  <ImageUploader
+                    onUpload={(e: File) => {
+                      uploadImageMutate(
+                        { files: e },
+                        {
+                          onSuccess: (response) => {
+                            const imageUrl = response[0]?.url;
+                            setValue('cover_image_url', imageUrl);
+                          },
+                        }
+                      );
+                    }}
+                  />
+                </div>
+              )}
+              <Button
+                disabled={isPending || isLoadingUpload}
+                type="submit"
+                size="sm"
+                className=""
+              >
                 {action === 'update' ? 'Edit' : 'Save'} Story
               </Button>
             </form>
